@@ -78,13 +78,50 @@ numbers that don't pass the [Spectral Test][Spectral Test]. One famous example
 for this algorithm in practice is the [RANDU][RANDU] machine from IBM.
 
 ### Mixed Congruential Method
+The real power for the congruential method comes into play when `c != 0`. The
+goal for random number generations is usually have better speed, period and
+randomness.  Taking modulus of a large number can be inefficient, so the choice
+of `m` can affect how quickly we can generate the sequence. We shall cover the
+way we assess the randomness of a sequence later in these notes.
 
-TODO:
-- mixed congruential method
-  - choice of modulus
-  - choice of multiplier
-  - potient
-  - verification of randomness
+#### Choice of Modulus
+The choice of modulus `m` will directly affect the sequence's period and the
+speed of sequence generation. One convenient choice for it can be `2^32` because
+it is the size of a word on a machine and modulo arithmetics can be optimised
+in this case. To see more discussions on this topic, go to 3.2.1.1 in TAOCP.
+
+#### Choise of Multiplier
+
+Having chosen `m`, we only have that many options to choose `a`. To choose `a`
+where we achieve the period of length `m`, we need to have the help from
+Theorem A
+
+```
+c is coprime to m
+b = a-1 is multiple of p, for every prime p dividing m
+b is a multiple of 4, if m is a multiple of 4
+```
+
+Confused? See more confusing proofs in 3.2.1.2 of TAOCP.
+
+#### Potency
+Just to make the things more complicated, long period does not mean that the
+sequence generated is random enough. Here we will introduce the concept of
+potency. For linear congruential sequences with maximum period is the least
+positive integer `s` such that
+
+```
+b^s = 0 mod m
+```
+
+Where `b = a-1`
+
+We know that such `s` exists, since `b` is a multiple of every prime dividing m.
+In order to have sufficiently randomness, we usually require the array of
+numbers to have at least potency of `5`.
+
+## Verification of Randomness
+Needs to be done. Too lazy to do it now.
 
 # Reference
 - Random number generators in Chapters 3.1, 3.2 of The Art of Computer Programming
